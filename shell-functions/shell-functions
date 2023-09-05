@@ -1,0 +1,67 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
+SHELL_NAME=$(basename "$SHELL")
+echo -e "Detected you are working in ${GREEN}$SHELL_NAME${NC}"
+
+case "$SHELL_NAME" in
+    bash)
+        profile="$HOME/.bashrc"
+        ;;
+    zsh)
+        profile="$HOME/.zshrc"
+        ;;
+    *)
+        echo -e "${RED}Unsupported shell: $SHELL_NAME${NC}"
+        ;;
+esac
+
+profile_name=$(basename $profile)
+
+hint="Run ${YELLOW}source \"$profile\"${NC} to reload $profile_name"
+
+in_profile() {
+    grep -q "$1" "$profile"
+}
+
+add_to_profile() {
+    entry="$1"
+    if in_profile "$entry"; then
+        echo "\"$entry\" is already in $profile_name"
+    else
+        echo -e "Adding \"${GREEN}$entry${NC}\" to $profile_name..."
+        echo "$entry" >> "$profile"
+        echo -e "\"${GREEN}$entry${NC}\" successfully added to $profile_name\n$hint"
+    fi
+}
+
+
+remove_from_profile() {
+    entry="$1"
+    if in_profile "$entry"; then
+        echo -e "Removing \"${RED}$entry${NC}\" from $profile_name..."
+        sed -i "" "/^$entry$/d" "$profile"
+        echo -e "\"${RED}$entry${NC}\" successfully removed from $profile_name\n$hint"
+    else
+        echo "\"$entry\" not found in $profile_name"
+    fi
+}
+
+add_to_path() {
+    entry="PATH=\"$1:\$PATH\""
+    add_to_profile "$entry"
+    if ! in_profile "typeset -U PATH"; then
+        echo "Removing duplicates in PATH"
+        add_to_profile "typeset -U PATH"
+    fi
+}
+
+remove_from_path() {
+    entry="PATH=\"$1:\$PATH\""
+    remove_from_profile "$entry"
+}
+
