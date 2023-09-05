@@ -2,9 +2,9 @@
 
 create_object() {
     local instance_name=$1
-    local OBJECT_FILE="$2"
+    local object_body="$2"
 
-    eval "$(sed "s/\${obj}_/${instance_name}_/g" "$OBJECT_FILE")"
+    eval "$("$object_body" | sed "s/\${obj}_/${instance_name}_/g")"
 
     local init_function=${instance_name}_init
     if command -v $init_function &>/dev/null; then
