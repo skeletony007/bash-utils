@@ -4,10 +4,12 @@ create_object() {
     local instance_name=$1
     local object="$2"
 
-    eval "${object//"\${obj}"/${instance_name}}"
+    eval "${object//"\${obj}"/$instance_name}"
 
     local init_function=${instance_name}_init
-    local init_pattern="^\s*${init_function}\s*\(\)\s*{"
+    local init_pattern="\s*${init_function}\s*\(\)\s*{"
+    echo $init_pattern
+    #"\s*${obj}_init\s*\(\)\s*{"
     if grep -qE "$init_pattern" <<< "$object"; then
         shift 2
         echo "init:  $init_function $@"
