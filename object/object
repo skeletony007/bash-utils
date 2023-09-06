@@ -4,7 +4,7 @@ create_object() {
     local instance_name=$1
     local object="$2"
 
-    eval "${object//\${obj}_/${instance_name}_}"
+    echo "${object//\${obj}_/${instance_name}_}"
 
     local init_function=${instance_name}_init
     if command -v $init_function &>/dev/null; then
