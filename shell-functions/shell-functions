@@ -6,7 +6,7 @@ YELLOW='\033[0;33m'
 NC='\033[0m'
 
 SHELL_NAME=$(basename "$SHELL")
-echo "Detected you are working in ${GREEN}$SHELL_NAME${NC}"
+echo -e "Detected you are working in ${GREEN}$SHELL_NAME${NC}"
 
 case "$SHELL_NAME" in
     bash)
@@ -16,7 +16,7 @@ case "$SHELL_NAME" in
         profile="$HOME/.zshrc"
         ;;
     *)
-        echo "${RED}Unsupported shell: $SHELL_NAME${NC}"
+        echo -e "${RED}Unsupported shell: $SHELL_NAME${NC}"
         ;;
 esac
 
@@ -31,11 +31,11 @@ in_profile() {
 add_to_profile() {
     entry="$1"
     if in_profile "$entry"; then
-        echo "${GREEN}$entry${NC} is already in $profile_name"
+        echo -e "${GREEN}$entry${NC} is already in $profile_name"
     else
-        echo "Adding ${GREEN}$entry${NC} to $profile_name..."
+        echo -e "Adding ${GREEN}$entry${NC} to $profile_name..."
         echo "$entry" >> "$profile"
-        echo "${GREEN}$entry${NC} successfully added to $profile_name\n$hint"
+        echo -e "${GREEN}$entry${NC} successfully added to $profile_name\n$hint"
     fi
 }
 
@@ -43,22 +43,17 @@ add_to_profile() {
 remove_from_profile() {
     entry="$1"
     if in_profile "$entry"; then
-        echo "Removing ${RED}$entry${NC} from $profile_name..."
-        #sed -i "" "/^$entry$/d" "$profile"
-        sed -i "/^$entry$/d" "$profile"
-        echo "${RED}$entry${NC} successfully removed from $profile_name\n$hint"
+        echo -e "Removing ${RED}$entry${NC} from $profile_name..."
+        sed -i "" "/^$entry$/d" "$profile"
+        echo -e "${RED}$entry${NC} successfully removed from $profile_name\n$hint"
     else
-        echo "${RED}$entry${NC} not found in $profile_name"
+        echo -e "${RED}$entry${NC} not found in $profile_name"
     fi
 }
 
 add_to_path() {
     entry="PATH=\"$1:\$PATH\""
     add_to_profile "$entry"
-    if ! in_profile "typeset -U PATH"; then
-        echo "Removing duplicates in PATH"
-        add_to_profile "typeset -U PATH"
-    fi
 }
 
 remove_from_path() {
