@@ -44,7 +44,8 @@ remove_from_profile() {
     entry="$1"
     if in_profile "$entry"; then
         echo "Removing ${RED}$entry${NC} from $profile_name..."
-        sed -i "" "/^$entry$/d" "$profile"
+        #sed -i "" "/^$entry$/d" "$profile"
+        sed "/^$entry$/d" "$profile"
         echo "${RED}$entry${NC} successfully removed from $profile_name\n$hint"
     else
         echo "${RED}$entry${NC} not found in $profile_name"
