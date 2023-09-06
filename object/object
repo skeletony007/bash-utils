@@ -7,8 +7,9 @@ create_object() {
     eval "${object//"\${obj}"/${instance_name}}"
 
     local init_function=${instance_name}_init
-    if [[ "$(type -t $init_function)" == "function" \
-       && "$object" == *"$init_function"* ]]; then
+    local init_function_pattern="^[[:space:]]*${init_function}[[:space:]]*\(\)[[:space:]]*{"
+    if [[ "$(type -t $init_function)" == "function" ]] \
+       && grep -qE "$init_function_pattern" <<< "$object"; then
         shift 2
         if ! $init_function $@; then
             echo "Initialization failed: $init_function" >&2
