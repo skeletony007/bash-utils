@@ -7,7 +7,8 @@ create_object() {
     eval "${object//"\${obj}"/${instance_name}}"
 
     local init_function=${instance_name}_init
-    if command -v $init_function &>/dev/null; then
+    if [[ "$(type -t $init_function)" == "function" \
+       && "$object" == *"$init_function"* ]]; then
         shift 2
         if ! $init_function $@; then
             echo "Initialization failed: $init_function" >&2
