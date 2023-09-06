@@ -7,8 +7,8 @@ create_object() {
     eval "${object//"\${obj}"/${instance_name}}"
 
     local init_function=${instance_name}_init
-    local init_function_pattern="^[[:space:]]*${init_function}[[:space:]]*\(\)[[:space:]]*{"
-    if grep -qE "$init_function_pattern" <<< "$object"; then
+    local init_pattern="^\s*${init_function}\s*\(\)\s*{"
+    if grep -qE "$init_pattern" <<< "$object"; then
         shift 2
         echo "init:  $init_function $@"
         if ! $init_function $@; then
