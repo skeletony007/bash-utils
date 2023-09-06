@@ -4,15 +4,13 @@ create_object() {
     local instance_name=$1
     local object="$2"
 
-    echo "${object//"\${obj}"/${instance_name}}"
     eval "${object//"\${obj}"/${instance_name}}"
 
     local init_function=${instance_name}_init
     local init_function_pattern="^[[:space:]]*${init_function}[[:space:]]*\(\)[[:space:]]*{"
-    if [[ $(type -t $init_function) == function ]] \
-       && grep -qE "$init_function_pattern" <<< "$object"; then
+    if grep -qE "$init_function_pattern" <<< "$object"; then
         shift 2
-        echo init $instance_name
+        echo "init:  $init_function $@"
         if ! $init_function $@; then
             echo "Initialization failed: $init_function" >&2
             exit 1
