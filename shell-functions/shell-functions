@@ -31,11 +31,11 @@ in_profile() {
 add_to_profile() {
     entry="$1"
     if in_profile "$entry"; then
-        echo "\"$entry\" is already in $profile_name"
+        echo "${GREEN}$entry${NC} is already in $profile_name"
     else
-        echo "Adding \"${GREEN}$entry${NC}\" to $profile_name..."
+        echo "Adding ${GREEN}$entry${NC} to $profile_name..."
         echo "$entry" >> "$profile"
-        echo "\"${GREEN}$entry${NC}\" successfully added to $profile_name\n$hint"
+        echo "${GREEN}$entry${NC} successfully added to $profile_name\n$hint"
     fi
 }
 
@@ -43,11 +43,11 @@ add_to_profile() {
 remove_from_profile() {
     entry="$1"
     if in_profile "$entry"; then
-        echo "Removing \"${RED}$entry${NC}\" from $profile_name..."
+        echo "Removing ${RED}$entry${NC} from $profile_name..."
         sed -i "" "/^$entry$/d" "$profile"
-        echo "\"${RED}$entry${NC}\" successfully removed from $profile_name\n$hint"
+        echo "${RED}$entry${NC} successfully removed from $profile_name\n$hint"
     else
-        echo "\"$entry\" not found in $profile_name"
+        echo "${RED}$entry${NC} not found in $profile_name"
     fi
 }
 
