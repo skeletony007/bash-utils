@@ -8,7 +8,7 @@ create_object() {
 
     local init_function=${instance_name}_init
     local init_pattern="\s*${init_function}\s*\(\)\s*{"
-    if [[ "$(type -t "$init_function")" == "function" ]] \
+    if command -v $init_function &>/dev/null \
        && grep -qE "$init_pattern" <<< "$object"; then
         shift 2
         echo "init:  $init_function $@"
