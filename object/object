@@ -15,7 +15,7 @@ create_object() {
         shift 2
         if ! $init_function $@; then
             echo "Initialization failed: $init_function" >&2
-            exit 1
+            return 1
         fi
     fi
 }
