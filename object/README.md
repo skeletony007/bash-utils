@@ -1,5 +1,7 @@
 [[NEEDS REWRITE]]
 
+- https://stackoverflow.com/a/40981277 Stack Overflow comment inspired `object`
+
 ## `create_object` Function
 
 The `create_object` function is used to create an instance of an object using a
