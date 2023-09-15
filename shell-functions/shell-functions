@@ -6,7 +6,6 @@ YELLOW='\033[0;33m'
 NC='\033[0m'
 
 SHELL_NAME=$(basename "$SHELL")
-echo -e "Detected you are working in ${GREEN}$SHELL_NAME${NC}"
 
 case "$SHELL_NAME" in
     bash)
@@ -22,6 +21,7 @@ esac
 
 profile_name=$(basename $profile)
 
+detection="Detected you are working in ${GREEN}$SHELL_NAME${NC}"
 hint="Run ${YELLOW}source \"$profile\"${NC} to reload $profile_name"
 
 in_profile() {
@@ -30,6 +30,8 @@ in_profile() {
 
 add_to_profile() {
     entry="$1"
+
+    echo -e "$detection"
     if in_profile "$entry"; then
         echo -e "${GREEN}$entry${NC} is already in $profile_name"
     else
@@ -42,6 +44,8 @@ add_to_profile() {
 
 remove_from_profile() {
     entry="$1"
+
+    echo -e "$detection"
     if in_profile "$entry"; then
         echo -e "Removing ${RED}$entry${NC} from $profile_name..."
         sed -i "" "\#^$entry\$#d" "$profile"
