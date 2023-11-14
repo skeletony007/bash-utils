@@ -1,0 +1,15 @@
+#!/bin/bash
+
+scanl() {
+    local function="$1"
+    local num_args=$2
+
+    { # try
+        $function ${@:3:$num_args}
+    } || { # catch
+        exit 1
+    }
+
+    shift $((2 + $num_args)) && [[ -n $@ ]] && scanl "$function" $num_args $@
+}
+
