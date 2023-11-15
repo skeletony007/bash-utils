@@ -1,0 +1,12 @@
+#!/bin/bash
+
+regex() {
+    local string=$1
+    local regex=$2
+
+    if [[ $string =~ $regex ]]; then
+        echo ${BASH_REMATCH[@]:1}
+        regex "${string#*${BASH_REMATCH[0]}*}" "$regex"
+    fi
+}
+
